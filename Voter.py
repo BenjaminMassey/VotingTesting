@@ -1,3 +1,5 @@
+# Made for CIS 433 by Benjamin Massey
+
 from tkinter import *
 from cryptography.fernet import Fernet
 
@@ -27,20 +29,25 @@ def decrypt_message(encrypted_message):
 
 generate_key()
 
+# GUI Setup
 window = Tk()
 
 window.title("Voting Machine")
 window.geometry('400x600')
 
+# Title label
 infoLabel = Label(window, text="President of the United States")
 infoLabel.config(font=("Courier", 16))
 infoLabel.pack()
 
+# Number value corresponding to the vote
 radioValue = IntVar()
 radioValue.set(-1)
 
+# Dynamic list of voting options: always leave last  as write-in
 candidates = ["Alex Jones", "Obummer", "Ligma", "WRITE-IN"]
 
+# Create radio option for each voting option
 i = 1
 for candidate in candidates:
     radio = Radiobutton(window, 
@@ -51,6 +58,7 @@ for candidate in candidates:
     radio.pack()
     i += 1
 
+# How we will read our write-in
 writeIn = StringVar()
 writeIn.set("")
 
@@ -58,9 +66,12 @@ writeInEntry = Entry(window, textvariable=writeIn)
 writeInEntry.config(font=("Courier",12))
 writeInEntry.pack()
 
+# Helper function, only global since it could be useful later
+# Takes radio variable and converts it via our string list
 def getCandidate(radio_id):
     return candidates[radio_id - 1]
 
+# Handle the voting process
 def process():
     global writeIn, voteText
     candidates[len(candidates)-1] = writeIn.get()
@@ -71,7 +82,7 @@ def process():
         result = getCandidate(radioValue.get())
         voteText.set(result)
 
-Label(window,text="").pack()
+Label(window,text="").pack() # Spacing
 
 submitButton = Button(window, text="Submit", command=process)
 submitButton.config(font=("Courier", 12))
@@ -83,10 +94,13 @@ voteLabel = Label(window, textvariable=voteText)
 voteLabel.config(font=("Courier", 16))
 voteLabel.pack()
 
-Label(window,text="").pack()
+Label(window,text="").pack() # Spacing
 
+# Here we will store our encrypted bytestring
+# Tried to avoid this, but encoding got weird
 encrypted_result = None
 
+# Look at our voted candidate, then encrypt it
 def encrypt():
     global voteText, encryptText, encrypted_result
     votedCandidate = voteText.get()
@@ -106,8 +120,9 @@ encryptLabel = Label(window, textvariable=encryptText, wraplength=300)
 encryptLabel.config(font=("Courier", 16))
 encryptLabel.pack()
 
-Label(window,text="").pack()
+Label(window,text="").pack() # Spacing
 
+# Look at our encrypted candidate variable and decrypt it
 def decrypt():
     global decryptText, encrypted_result
     if encrypted_result == None:
