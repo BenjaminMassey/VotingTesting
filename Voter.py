@@ -228,7 +228,7 @@ def encrypt3():
     if votedCandidate == "Please vote :)" or votedCandidate == "---":
         return
     encryptText3.set("Place")
-    caesar_result = "Place"
+    mystery_result = "Place"
 
 encryptButton3 = Button(window, text="Encrypt", command=encrypt3)
 encryptButton3.config(font=("Courier", 12))
@@ -242,9 +242,9 @@ encryptLabel3.grid(row=i+8, column=2, padx=100)
 
 def decrypt3():
     global decryptText3, mystery_result
-    if caesar_result == None:
+    if mystery_result == None:
         return
-    #caesar_result
+    #mystery_result
     decryptText3.set("Holder")
 
 decryptButton3 = Button(window, text="Decrypt", command=decrypt3)
