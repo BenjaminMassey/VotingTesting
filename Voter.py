@@ -33,12 +33,12 @@ generate_key()
 window = Tk()
 
 window.title("Voting Machine")
-window.geometry('400x600')
+window.geometry('1280x720')
 
 # Title label
 infoLabel = Label(window, text="President of the United States")
 infoLabel.config(font=("Courier", 16))
-infoLabel.pack()
+infoLabel.grid(row=0, column=1)
 
 # Number value corresponding to the vote
 radioValue = IntVar()
@@ -55,7 +55,7 @@ for candidate in candidates:
                variable=radioValue, 
                value=i)
     radio.config(font=("Courier",12))
-    radio.pack()
+    radio.grid(row=i, column=1)
     i += 1
 
 # How we will read our write-in
@@ -64,7 +64,7 @@ writeIn.set("")
 
 writeInEntry = Entry(window, textvariable=writeIn)
 writeInEntry.config(font=("Courier",12))
-writeInEntry.pack()
+writeInEntry.grid(row=i, column=1)
 
 # Helper function, only global since it could be useful later
 # Takes radio variable and converts it via our string list
@@ -82,19 +82,19 @@ def process():
         result = getCandidate(radioValue.get())
         voteText.set(result)
 
-Label(window,text="").pack() # Spacing
+#Label(window,text="").pack() # Spacing
 
 submitButton = Button(window, text="Submit", command=process)
 submitButton.config(font=("Courier", 12))
-submitButton.pack()
+submitButton.grid(row=i+1, column=1)
 
 voteText = StringVar()
 voteText.set("---")
 voteLabel = Label(window, textvariable=voteText)
 voteLabel.config(font=("Courier", 16))
-voteLabel.pack()
+voteLabel.grid(row=i+2, column=0, padx=175)
 
-Label(window,text="").pack() # Spacing
+#Label(window,text="").pack() # Spacing
 
 # Here we will store our encrypted bytestring
 # Tried to avoid this, but encoding got weird
@@ -112,15 +112,15 @@ def encrypt():
 
 encryptButton = Button(window, text="Encrypt", command=encrypt)
 encryptButton.config(font=("Courier", 12))
-encryptButton.pack()
+encryptButton.grid(row=i+3, column=0, padx=175)
 
 encryptText = StringVar()
 encryptText.set("---")
 encryptLabel = Label(window, textvariable=encryptText, wraplength=300)
 encryptLabel.config(font=("Courier", 16))
-encryptLabel.pack()
+encryptLabel.grid(row=i+4, column=0, padx=175)
 
-Label(window,text="").pack() # Spacing
+#Label(window,text="").pack() # Spacing
 
 # Look at our encrypted candidate variable and decrypt it
 def decrypt():
@@ -132,12 +132,12 @@ def decrypt():
 
 decryptButton = Button(window, text="Decrypt", command=decrypt)
 decryptButton.config(font=("Courier", 12))
-decryptButton.pack()
+decryptButton.grid(row=i+5, column=0, padx=175)
 
 decryptText = StringVar()
 decryptText.set("---")
 decryptLabel = Label(window, textvariable=decryptText)
 decryptLabel.config(font=("Courier", 16))
-decryptLabel.pack()
+decryptLabel.grid(row=i+6, column=0, padx=175)
 
 window.mainloop()
