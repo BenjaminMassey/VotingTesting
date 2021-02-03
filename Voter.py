@@ -3,9 +3,29 @@
 from tkinter import *
 from cryptography.fernet import Fernet
 
+
+## Caesar Functions
+secret_number = 4 # keep small: caesar VERY dumb rn
+
+def caesar(s1, sign):
+    global secret_number
+    s2 = ""
+    for c1 in s1:
+        s2 += str(chr(ord(c1) + (secret_number * sign)))
+    return s2
+
+def caesar_encrypt(s):
+    global caesar
+    return caesar(s, 1)
+
+def caesar_decrypt(s):
+    global caesar
+    return caesar(s, -1)
+
+
+## Fernet Functions
 # The following encryption functions are from here:
 # https://devqa.io/encrypt-decrypt-data-python/
-# They get the Fernet encryption ready
 def generate_key():
     key = Fernet.generate_key()
     with open("secret.key", "wb") as key_file:
@@ -29,10 +49,12 @@ def decrypt_message(encrypted_message):
 
 generate_key()
 
-# GUI Setup
+
+## GUI Setup
 window = Tk()
 window.title("Voting Machine")
 window.geometry('1150x600')
+
 
 ## Here is the top section, used to vote
 # Title label
@@ -109,12 +131,13 @@ firstSectionLabel.grid(row=i+6, column=0)
 caesar_result = None
 
 def encrypt1():
-    global voteText, encryptText1, caesar_result
+    global caesar_encrypt, voteText, encryptText1, caesar_result
     votedCandidate = voteText.get()
     if votedCandidate == "Please vote :)" or votedCandidate == "---":
         return
-    encryptText1.set("Place")
-    caesar_result = "Place"
+    encryptedCandidate = caesar_encrypt(votedCandidate)
+    encryptText1.set(encryptedCandidate)
+    caesar_result = encryptedCandidate
 
 encryptButton1 = Button(window, text="Encrypt", command=encrypt1)
 encryptButton1.config(font=("Courier", 12))
@@ -130,8 +153,8 @@ def decrypt1():
     global decryptText1, caesar_result
     if caesar_result == None:
         return
-    #caesar_result
-    decryptText1.set("Holder")
+    decrypted = caesar_decrypt(caesar_result)
+    decryptText1.set(decrypted)
 
 decryptButton1 = Button(window, text="Decrypt", command=decrypt1)
 decryptButton1.config(font=("Courier", 12))
