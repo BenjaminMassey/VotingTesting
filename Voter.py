@@ -118,7 +118,7 @@ voteText = StringVar()
 voteText.set("---")
 voteLabel = Label(window, textvariable=voteText)
 voteLabel.config(font=("Courier", 16))
-voteLabel.grid(row=i+4, column=1, padx=100)
+voteLabel.grid(row=i+4, column=1, padx=25)
 
 Label(window,text="").grid(row=i+5, column=1)
 
@@ -141,13 +141,13 @@ def encrypt1():
 
 encryptButton1 = Button(window, text="Encrypt", command=encrypt1)
 encryptButton1.config(font=("Courier", 12))
-encryptButton1.grid(row=i+7, column=0, padx=100)
+encryptButton1.grid(row=i+7, column=0, padx=25)
 
 encryptText1 = StringVar()
 encryptText1.set("---")
-encryptLabel1 = Label(window, textvariable=encryptText1, wraplength=300)
+encryptLabel1 = Label(window, textvariable=encryptText1, wraplength=300, width=23)
 encryptLabel1.config(font=("Courier", 16))
-encryptLabel1.grid(row=i+8, column=0, padx=100)
+encryptLabel1.grid(row=i+8, column=0, padx=25)
 
 def decrypt1():
     global decryptText1, caesar_result
@@ -158,13 +158,13 @@ def decrypt1():
 
 decryptButton1 = Button(window, text="Decrypt", command=decrypt1)
 decryptButton1.config(font=("Courier", 12))
-decryptButton1.grid(row=i+9, column=0, padx=100)
+decryptButton1.grid(row=i+9, column=0, padx=25)
 
 decryptText1 = StringVar()
 decryptText1.set("---")
 decryptLabel1 = Label(window, textvariable=decryptText1)
 decryptLabel1.config(font=("Courier", 16))
-decryptLabel1.grid(row=i+10, column=0, padx=100)
+decryptLabel1.grid(row=i+10, column=0, padx=25)
 
 
 ## End of the left encyrption, now the middle encryption version
@@ -188,13 +188,13 @@ def encrypt2():
 
 encryptButton2 = Button(window, text="Encrypt", command=encrypt2)
 encryptButton2.config(font=("Courier", 12))
-encryptButton2.grid(row=i+7, column=1, padx=100)
+encryptButton2.grid(row=i+7, column=1, padx=25)
 
 encryptText2 = StringVar()
-encryptText2.set("-"*100)
-encryptLabel2 = Label(window, textvariable=encryptText2, wraplength=300)
+encryptText2.set("---")
+encryptLabel2 = Label(window, textvariable=encryptText2, wraplength=300, width=23)
 encryptLabel2.config(font=("Courier", 16))
-encryptLabel2.grid(row=i+8, column=1, padx=100)
+encryptLabel2.grid(row=i+8, column=1, padx=25)
 
 # Look at our encrypted candidate variable and decrypt it
 def decrypt2():
@@ -206,13 +206,13 @@ def decrypt2():
 
 decryptButton2 = Button(window, text="Decrypt", command=decrypt2)
 decryptButton2.config(font=("Courier", 12))
-decryptButton2.grid(row=i+9, column=1, padx=100)
+decryptButton2.grid(row=i+9, column=1, padx=25)
 
 decryptText2 = StringVar()
 decryptText2.set("---")
 decryptLabel2 = Label(window, textvariable=decryptText2)
 decryptLabel2.config(font=("Courier", 16))
-decryptLabel2.grid(row=i+10, column=1, padx=100)
+decryptLabel2.grid(row=i+10, column=1, padx=25)
 
 
 ## End of middle encryption, now the right encryption version
@@ -232,29 +232,28 @@ def encrypt3():
 
 encryptButton3 = Button(window, text="Encrypt", command=encrypt3)
 encryptButton3.config(font=("Courier", 12))
-encryptButton3.grid(row=i+7, column=2, padx=100)
+encryptButton3.grid(row=i+7, column=2, padx=25)
 
 encryptText3 = StringVar()
 encryptText3.set("---")
-encryptLabel3 = Label(window, textvariable=encryptText3, wraplength=300)
+encryptLabel3 = Label(window, textvariable=encryptText3, wraplength=300, width=23)
 encryptLabel3.config(font=("Courier", 16))
-encryptLabel3.grid(row=i+8, column=2, padx=100)
+encryptLabel3.grid(row=i+8, column=2, padx=25)
 
 def decrypt3():
     global decryptText3, mystery_result
-    if mystery_result == None:
-        return
-    #mystery_result
+    #if mystery_result == None:
+    #    return
     decryptText3.set("Holder")
 
 decryptButton3 = Button(window, text="Decrypt", command=decrypt3)
 decryptButton3.config(font=("Courier", 12))
-decryptButton3.grid(row=i+9, column=2, padx=100)
+decryptButton3.grid(row=i+9, column=2, padx=25)
 
 decryptText3 = StringVar()
 decryptText3.set("---")
 decryptLabel3 = Label(window, textvariable=decryptText3)
 decryptLabel3.config(font=("Courier", 16))
-decryptLabel3.grid(row=i+10, column=2, padx=100)
+decryptLabel3.grid(row=i+10, column=2, padx=25)
 
 window.mainloop()
