@@ -56,8 +56,6 @@ class Crypto:
         unpadded = padder.update(decrypted_data) + padder.finalize()
         return unpadded
 
-ecb_aes = Crypto()
-
 ## CBC AES Functions
 # The following encryption functions are from here:
 # https://devqa.io/encrypt-decrypt-data-python/
@@ -319,5 +317,7 @@ def clearGUI():
 clearButton = Button(window, text="Clear", command=clearGUI)
 clearButton.config(font=("Courier",12))
 clearButton.grid(row=i+11,column=1,pady=100)
+
+## Let 'er rip!
 
 window.mainloop()
