@@ -299,7 +299,8 @@ decryptLabel3.grid(row=i+10, column=2, padx=25)
 def clearGUI():
     global encryptText1, decryptText1, caesar_result, \
            encryptText2, decryptText2, ecb_result, \
-           encryptText3, decryptText3, fernet_result
+           encryptText3, decryptText3, fernet_result, \
+           radioValue, voteText
 
     encryptText1.set("---")
     encryptText2.set("---")
@@ -311,6 +312,9 @@ def clearGUI():
     caesar_result = None
     ecb_result = None
     fernet_result = None
+
+    radioValue.set(-1)
+    voteText.set("---")
 
 clearButton = Button(window, text="Clear", command=clearGUI)
 clearButton.config(font=("Courier",12))
