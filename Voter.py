@@ -88,7 +88,7 @@ generate_key()
 ## GUI Setup
 window = Tk()
 window.title("Voting Machine")
-window.geometry('1150x600')
+window.geometry('1150x720')
 
 
 ## Here is the top section, used to vote
@@ -159,6 +159,7 @@ Label(window,text="").grid(row=i+5, column=1)
 
 
 ## End of top section, now the left encryption version
+
 firstSectionLabel = Label(window, text="Caesar Cipher")
 firstSectionLabel.config(font=("Courier", 16, "bold"))
 firstSectionLabel.grid(row=i+6, column=0)
@@ -249,6 +250,7 @@ decryptLabel2.grid(row=i+10, column=1, padx=25)
 
 
 ## End of middle encryption, now the right encryption version
+
 thirdSectionLabel = Label(window, text="CBC AES")
 thirdSectionLabel.config(font=("Courier", 16, "bold"))
 thirdSectionLabel.grid(row=i+6, column=2)
@@ -270,11 +272,10 @@ encryptButton3.grid(row=i+7, column=2, padx=25)
 
 encryptText3 = StringVar()
 encryptText3.set("---")
-encryptLabel3 = Label(window, textvariable=encryptText3, wraplength=300, width=23)
+encryptLabel3 = Label(window, textvariable=encryptText3, wraplength=300, width=23, height=5)
 encryptLabel3.config(font=("Courier", 16))
 encryptLabel3.grid(row=i+8, column=2, padx=25)
 
-# Look at our encrypted candidate variable and decrypt it
 def decrypt3():
     global decryptText3, fernet_result
     if fernet_result == None:
@@ -291,5 +292,28 @@ decryptText3.set("---")
 decryptLabel3 = Label(window, textvariable=decryptText3)
 decryptLabel3.config(font=("Courier", 16))
 decryptLabel3.grid(row=i+10, column=2, padx=25)
+
+
+## Clear button, for demonstration purposes
+
+def clearGUI():
+    global encryptText1, decryptText1, caesar_result, \
+           encryptText2, decryptText2, ecb_result, \
+           encryptText3, decryptText3, fernet_result
+
+    encryptText1.set("---")
+    encryptText2.set("---")
+    encryptText3.set("---")
+    decryptText1.set("---")
+    decryptText2.set("---")
+    decryptText3.set("---")
+
+    caesar_result = None
+    ecb_result = None
+    fernet_result = None
+
+clearButton = Button(window, text="Clear", command=clearGUI)
+clearButton.config(font=("Courier",12))
+clearButton.grid(row=i+11,column=1,pady=100)
 
 window.mainloop()
