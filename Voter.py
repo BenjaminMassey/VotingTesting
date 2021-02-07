@@ -3,6 +3,11 @@
 from tkinter import *
 from cryptography.fernet import Fernet
 
+import base64
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives import padding
+from cryptography.hazmat.backends import default_backend
+from django.utils.encoding import force_bytes, force_text
 
 ## Caesar Functions
 secret_number = 4 # keep small: caesar VERY dumb rn
@@ -23,7 +28,37 @@ def caesar_decrypt(s):
     return caesar(s, -1)
 
 
-## Fernet Functions
+## ECB AES Functions
+# https://gist.github.com/tcitry/df5ee377ad112d7637fe7b9211e6bc83
+
+SECRET_KEY = "abcdefghijklmnopq"
+value = force_bytes("12345678901234567890")
+
+backend = default_backend()
+key = force_bytes(base64.urlsafe_b64encode(force_bytes(SECRET_KEY))[:32])
+
+
+class Crypto:
+
+    def __init__(self):
+        self.encryptor = Cipher(algorithms.AES(key), modes.ECB(), backend).encryptor()
+        self.decryptor = Cipher(algorithms.AES(key), modes.ECB(), backend).decryptor()
+
+    def encrypt(self):
+        padder = padding.PKCS7(algorithms.AES(key).block_size).padder()
+        padded_data = padder.update(value) + padder.finalize()
+        encrypted_text = self.encryptor.update(padded_data) + self.encryptor.finalize()
+        return encrypted_text
+
+    def decrypt(self, value):
+        padder = padding.PKCS7(algorithms.AES(key).block_size).unpadder()
+        decrypted_data = self.decryptor.update(value)
+        unpadded = padder.update(decrypted_data) + padder.finalize()
+        return unpadded
+
+ecb_aes = Crypto()
+
+## CBC AES Functions
 # The following encryption functions are from here:
 # https://devqa.io/encrypt-decrypt-data-python/
 def generate_key():
@@ -168,23 +203,22 @@ decryptLabel1.grid(row=i+10, column=0, padx=25)
 
 
 ## End of the left encyrption, now the middle encryption version
-secondSectionLabel = Label(window, text="Fernet Encryption")
+
+secondSectionLabel = Label(window, text="ECB AES")
 secondSectionLabel.config(font=("Courier", 16, "bold"))
 secondSectionLabel.grid(row=i+6, column=1)
 
-# Here we will store our encrypted bytestring
-# Tried to avoid this, but encoding got weird
-fernet_result = None
+ecb_result = None
 
-# Look at our voted candidate, then encrypt it
 def encrypt2():
-    global voteText, encryptText2, fernet_result
+    global value, ecb_aes, voteText, encryptText2, ecb_result
     votedCandidate = voteText.get()
     if votedCandidate == "Please vote :)" or votedCandidate == "---":
         return
-    encryptedCandidate = encrypt_message(votedCandidate)
-    encryptText2.set(encryptedCandidate)
-    fernet_result = encryptedCandidate
+    ecb_aes = Crypto()
+    value = force_bytes(votedCandidate)
+    ecb_result = force_text(base64.urlsafe_b64encode(ecb_aes.encrypt()))
+    encryptText2.set(str(ecb_result))
 
 encryptButton2 = Button(window, text="Encrypt", command=encrypt2)
 encryptButton2.config(font=("Courier", 12))
@@ -196,13 +230,12 @@ encryptLabel2 = Label(window, textvariable=encryptText2, wraplength=300, width=2
 encryptLabel2.config(font=("Courier", 16))
 encryptLabel2.grid(row=i+8, column=1, padx=25)
 
-# Look at our encrypted candidate variable and decrypt it
 def decrypt2():
-    global decryptText2, fernet_result
-    if fernet_result == None:
+    global ecb_aes, decryptText2, ecb_result
+    if ecb_result == None:
         return
-    decryptedCandidate = decrypt_message(fernet_result)
-    decryptText2.set(decryptedCandidate)
+    result = force_text(ecb_aes.decrypt(base64.urlsafe_b64decode(ecb_result)))
+    decryptText2.set(str(result))
 
 decryptButton2 = Button(window, text="Decrypt", command=decrypt2)
 decryptButton2.config(font=("Courier", 12))
@@ -216,19 +249,20 @@ decryptLabel2.grid(row=i+10, column=1, padx=25)
 
 
 ## End of middle encryption, now the right encryption version
-thirdSectionLabel = Label(window, text="Bestest Coolest Version")
+thirdSectionLabel = Label(window, text="CBC AES")
 thirdSectionLabel.config(font=("Courier", 16, "bold"))
 thirdSectionLabel.grid(row=i+6, column=2)
 
-mystery_result = None
+fernet_result = None
 
 def encrypt3():
-    global voteText, encryptText3, caesar_result
+    global voteText, encryptText3, fernet_result
     votedCandidate = voteText.get()
     if votedCandidate == "Please vote :)" or votedCandidate == "---":
         return
-    encryptText3.set("Place")
-    mystery_result = "Place"
+    encryptedCandidate = encrypt_message(votedCandidate)
+    encryptText3.set(encryptedCandidate)
+    fernet_result = encryptedCandidate
 
 encryptButton3 = Button(window, text="Encrypt", command=encrypt3)
 encryptButton3.config(font=("Courier", 12))
@@ -240,11 +274,13 @@ encryptLabel3 = Label(window, textvariable=encryptText3, wraplength=300, width=2
 encryptLabel3.config(font=("Courier", 16))
 encryptLabel3.grid(row=i+8, column=2, padx=25)
 
+# Look at our encrypted candidate variable and decrypt it
 def decrypt3():
-    global decryptText3, mystery_result
-    #if mystery_result == None:
-    #    return
-    decryptText3.set("Holder")
+    global decryptText3, fernet_result
+    if fernet_result == None:
+        return
+    decryptedCandidate = decrypt_message(fernet_result)
+    decryptText3.set(decryptedCandidate)
 
 decryptButton3 = Button(window, text="Decrypt", command=decrypt3)
 decryptButton3.config(font=("Courier", 12))
