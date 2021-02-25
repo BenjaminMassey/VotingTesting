@@ -83,10 +83,52 @@ def decrypt_message(encrypted_message):
 generate_key()
 
 
+## RSA Encryption Functions
+# All of this is taken nearly directly from the following link:
+#https://nitratine.net/blog/post/asymmetric-encryption-and-decryption-in-python/
+
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding as apad
+
+private_key = rsa.generate_private_key(
+    public_exponent=65537,
+    key_size=2048,
+    backend=default_backend()
+)
+public_key = private_key.public_key()
+
+def rsa_encrypt(original_text):
+    global public_key
+    message = force_bytes(original_text)
+    encrypted = public_key.encrypt(
+        message,
+        apad.OAEP(
+            mgf=apad.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
+    )
+    return encrypted
+
+def rsa_decrypt(encrypted_text):
+    global private_key
+    original_text = private_key.decrypt(
+        encrypted_text,
+        apad.OAEP(
+            mgf=apad.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
+    )
+    return force_text(original_text)
+
+
 ## GUI Setup
 window = Tk()
 window.title("Voting Machine")
-window.geometry('1250x720')
+window.geometry('1300x950')
 
 
 ## Here is the top section, used to vote
@@ -152,7 +194,7 @@ voteText = StringVar()
 voteText.set("---")
 voteLabel = Label(window, textvariable=voteText)
 voteLabel.config(font=("Courier", 16))
-voteLabel.grid(row=i+4, columnspan=4, padx=0)
+voteLabel.grid(row=i+4, columnspan=4, padx=10)
 
 Label(window,text="").grid(row=i+5, columnspan=4)
 
@@ -176,13 +218,13 @@ def encrypt1():
 
 encryptButton1 = Button(window, text="Encrypt", command=encrypt1)
 encryptButton1.config(font=("Courier", 12))
-encryptButton1.grid(row=i+7, column=0, padx=0)
+encryptButton1.grid(row=i+7, column=0, padx=10)
 
 encryptText1 = StringVar()
 encryptText1.set("---")
 encryptLabel1 = Label(window, textvariable=encryptText1, wraplength=300, width=23)
 encryptLabel1.config(font=("Courier", 16))
-encryptLabel1.grid(row=i+8, column=0, padx=0)
+encryptLabel1.grid(row=i+8, column=0, padx=10)
 
 def decrypt1():
     global decryptText1, caesar_result
@@ -193,13 +235,13 @@ def decrypt1():
 
 decryptButton1 = Button(window, text="Decrypt", command=decrypt1)
 decryptButton1.config(font=("Courier", 12))
-decryptButton1.grid(row=i+9, column=0, padx=0)
+decryptButton1.grid(row=i+9, column=0, padx=10)
 
 decryptText1 = StringVar()
 decryptText1.set("---")
 decryptLabel1 = Label(window, textvariable=decryptText1)
 decryptLabel1.config(font=("Courier", 16))
-decryptLabel1.grid(row=i+10, column=0, padx=0)
+decryptLabel1.grid(row=i+10, column=0, padx=10)
 
 
 ## End of the left encyrption, now the middle encryption version
@@ -222,13 +264,13 @@ def encrypt2():
 
 encryptButton2 = Button(window, text="Encrypt", command=encrypt2)
 encryptButton2.config(font=("Courier", 12))
-encryptButton2.grid(row=i+7, column=1, padx=0)
+encryptButton2.grid(row=i+7, column=1, padx=10)
 
 encryptText2 = StringVar()
 encryptText2.set("---")
 encryptLabel2 = Label(window, textvariable=encryptText2, wraplength=300, width=23)
 encryptLabel2.config(font=("Courier", 16))
-encryptLabel2.grid(row=i+8, column=1, padx=0)
+encryptLabel2.grid(row=i+8, column=1, padx=10)
 
 def decrypt2():
     global ecb_aes, decryptText2, ecb_result
@@ -239,13 +281,13 @@ def decrypt2():
 
 decryptButton2 = Button(window, text="Decrypt", command=decrypt2)
 decryptButton2.config(font=("Courier", 12))
-decryptButton2.grid(row=i+9, column=1, padx=0)
+decryptButton2.grid(row=i+9, column=1, padx=10)
 
 decryptText2 = StringVar()
 decryptText2.set("---")
 decryptLabel2 = Label(window, textvariable=decryptText2)
 decryptLabel2.config(font=("Courier", 16))
-decryptLabel2.grid(row=i+10, column=1, padx=0)
+decryptLabel2.grid(row=i+10, column=1, padx=10)
 
 
 ## End of middle encryption, now the right encryption version
@@ -267,13 +309,13 @@ def encrypt3():
 
 encryptButton3 = Button(window, text="Encrypt", command=encrypt3)
 encryptButton3.config(font=("Courier", 12))
-encryptButton3.grid(row=i+7, column=2, padx=0)
+encryptButton3.grid(row=i+7, column=2, padx=10)
 
 encryptText3 = StringVar()
 encryptText3.set("---")
 encryptLabel3 = Label(window, textvariable=encryptText3, wraplength=300, width=23, height=5)
 encryptLabel3.config(font=("Courier", 16))
-encryptLabel3.grid(row=i+8, column=2, padx=0)
+encryptLabel3.grid(row=i+8, column=2, padx=10)
 
 def decrypt3():
     global decryptText3, fernet_result
@@ -284,13 +326,13 @@ def decrypt3():
 
 decryptButton3 = Button(window, text="Decrypt", command=decrypt3)
 decryptButton3.config(font=("Courier", 12))
-decryptButton3.grid(row=i+9, column=2, padx=0)
+decryptButton3.grid(row=i+9, column=2, padx=10)
 
 decryptText3 = StringVar()
 decryptText3.set("---")
 decryptLabel3 = Label(window, textvariable=decryptText3)
 decryptLabel3.config(font=("Courier", 16))
-decryptLabel3.grid(row=i+10, column=2, padx=0)
+decryptLabel3.grid(row=i+10, column=2, padx=10)
 
 ## End of third encryption, now the fourth encryption version
 
@@ -298,33 +340,43 @@ fourthSectionLabel = Label(window, text="RSA")
 fourthSectionLabel.config(font=("Courier", 16, "bold"))
 fourthSectionLabel.grid(row=i+6, column=3)
 
+rsa_result = None
+
 def encrypt4():
-    global encryptText4
-    encryptText4.set("Place")
+    global rsa_result, voteText, encryptText4
+    votedCandidate = voteText.get()
+    if votedCandidate == "Please vote :)" or votedCandidate == "---":
+        return
+    encryptedCandidate = rsa_encrypt(votedCandidate)
+    rsa_result = encryptedCandidate
+    encryptText4.set(encryptedCandidate)
 
 encryptButton4 = Button(window, text="Encrypt", command=encrypt4)
 encryptButton4.config(font=("Courier", 12))
-encryptButton4.grid(row=i+7, column=3, padx=0)
+encryptButton4.grid(row=i+7, column=3, padx=10)
 
 encryptText4 = StringVar()
 encryptText4.set("---")
-encryptLabel4 = Label(window, textvariable=encryptText4, wraplength=300, width=23, height=5)
+encryptLabel4 = Label(window, textvariable=encryptText4, wraplength=300, width=23, height=15)
 encryptLabel4.config(font=("Courier", 16))
-encryptLabel4.grid(row=i+8, column=3, padx=0)
+encryptLabel4.grid(row=i+8, column=3, padx=10)
 
 def decrypt4():
-    global decryptText4
-    decryptText4.set("Holder")
+    global rsa_result, decryptText4
+    if rsa_result == None:
+        return
+    decryptedCandidate = rsa_decrypt(rsa_result)
+    decryptText4.set(decryptedCandidate)
 
 decryptButton4 = Button(window, text="Decrypt", command=decrypt4)
 decryptButton4.config(font=("Courier", 12))
-decryptButton4.grid(row=i+9, column=3, padx=0)
+decryptButton4.grid(row=i+9, column=3, padx=10)
 
 decryptText4 = StringVar()
 decryptText4.set("---")
 decryptLabel4 = Label(window, textvariable=decryptText4)
 decryptLabel4.config(font=("Courier", 16))
-decryptLabel4.grid(row=i+10, column=3, padx=0)
+decryptLabel4.grid(row=i+10, column=3, padx=10)
 
 
 ## Clear button, for demonstration purposes
@@ -333,7 +385,7 @@ def clearGUI():
     global encryptText1, decryptText1, caesar_result, \
            encryptText2, decryptText2, ecb_result, \
            encryptText3, decryptText3, fernet_result, \
-           encryptText4, decryptText4, \
+           encryptText4, decryptText4, rsa_result, \
            radioValue, voteText
 
     encryptText1.set("---")
@@ -348,6 +400,7 @@ def clearGUI():
     caesar_result = None
     ecb_result = None
     fernet_result = None
+    rsa_result = None
 
     radioValue.set(-1)
     voteText.set("---")
