@@ -1,25 +1,25 @@
-## Voting Testing
+# Voting Testing
 
-# Domain
+## Domain
 
 This is the coding part of a class project for CIS 433 during Winter Term 2021.
 The Project is done by Ben Massey, Michael Welch, and Alex Bichler.
 
-# Purpose
+## Purpose
 
 The purpose of this program is to demonstrate different encryption methods in
 the context of voting security. It provides a pseudo-voting system along with
 different methods to encrypt and decrypt said vote. We use this in our project
 to explore what is important when it comes to encryption concerns in voting security.
 
-# Screenshot
+## Screenshot
 
 Here is a screenshot of our application, for the purpose of quickly understanding
 it and generally having a preview. 
 
 ![Screenshot](https://i.imgur.com/7KqbF1Y.png)
 
-# Sources
+## Sources
 
 The encrytpion methods (aside from Caesar Cipher) were not written by us, but
 instead were taken from online -- seeing as the creation of encryption code
@@ -37,6 +37,6 @@ worth the time investment in comparison to other research, so please check out
 these sources as they were extremely helpful in allowing us to pursue our project
 as best we could.
 
-# Contact
+## Contact
 
 Feel free to email benjamin.w.massey@gmail.com for any questions/contact.
