@@ -1,4 +1,5 @@
-# Made for CIS 433 by Benjamin Massey
+# CIS 433 Winter Term 2021
+# Project by Ben Massey, Michael Welch and Alex Bichler
 
 from tkinter import *
 from cryptography.fernet import Fernet
@@ -10,7 +11,7 @@ from cryptography.hazmat.backends import default_backend
 from django.utils.encoding import force_bytes, force_text
 
 ## Caesar Functions
-secret_number = 4 # keep small: caesar VERY dumb rn
+secret_number = 4 # keep small: no looping check
 
 def caesar(s1, sign):
     global secret_number
@@ -59,33 +60,25 @@ class Crypto:
 ## CBC AES Functions
 # The following encryption functions are from here:
 # https://devqa.io/encrypt-decrypt-data-python/
-def generate_key():
-    key = Fernet.generate_key()
-    with open("secret.key", "wb") as key_file:
-        key_file.write(key)
-
-def load_key():
-    return open("secret.key", "rb").read()
+fernet_key = Fernet.generate_key()
 
 def encrypt_message(message):
-    key = load_key()
+    global fernet_key
     encoded_message = message.encode()
-    f = Fernet(key)
+    f = Fernet(fernet_key)
     encrypted_message = f.encrypt(encoded_message)
     return encrypted_message
 
 def decrypt_message(encrypted_message):
-    key = load_key()
-    f = Fernet(key)
+    global fernet_key
+    f = Fernet(fernet_key)
     decrypted_message = f.decrypt(encrypted_message)
     return decrypted_message.decode()
-
-generate_key()
 
 
 ## RSA Encryption Functions
 # All of this is taken nearly directly from the following link:
-#https://nitratine.net/blog/post/asymmetric-encryption-and-decryption-in-python/
+# https://nitratine.net/blog/post/asymmetric-encryption-and-decryption-in-python/
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
@@ -142,7 +135,6 @@ radioValue = IntVar()
 radioValue.set(-1)
 
 # Dynamic list of voting options: always leave last  as write-in
-#candidates = ["Alex Jones", "Obummer", "Ligma", "WRITE-IN"]
 candidates = ["Trump", "Biden", "Jorgensen", "WRITE-IN"]
 
 # Create radio option for each voting option
@@ -199,7 +191,7 @@ voteLabel.grid(row=i+4, columnspan=4, padx=10)
 Label(window,text="").grid(row=i+5, columnspan=4)
 
 
-## End of top section, now the left encryption version
+## End of top section, now the first encryption version
 
 firstSectionLabel = Label(window, text="Caesar Cipher")
 firstSectionLabel.config(font=("Courier", 16, "bold"))
@@ -244,7 +236,7 @@ decryptLabel1.config(font=("Courier", 16))
 decryptLabel1.grid(row=i+10, column=0, padx=10)
 
 
-## End of the left encyrption, now the middle encryption version
+## End of the first encyrption, now the second encryption version
 
 secondSectionLabel = Label(window, text="ECB AES")
 secondSectionLabel.config(font=("Courier", 16, "bold"))
@@ -290,7 +282,7 @@ decryptLabel2.config(font=("Courier", 16))
 decryptLabel2.grid(row=i+10, column=1, padx=10)
 
 
-## End of middle encryption, now the right encryption version
+## End of second encryption, now the third encryption version
 
 thirdSectionLabel = Label(window, text="CBC AES")
 thirdSectionLabel.config(font=("Courier", 16, "bold"))
