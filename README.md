@@ -36,7 +36,7 @@ Once started, the user enters the vote for their preferred
 candidate at the top center of the screen, which involves 
 clicking the corresponding radio button and pressing the submit
 button. This then allows one to try out the four encryption
-methods on the bottom half of the window. First one click an "Encrypt"
+methods on the bottom half of the window. First, one may click an "Encrypt"
 button, which displays the encrytped version. Then, the user can
 click the related "Decrypt" button which converts it into the decrypted
 text. If the user ever wants to reset this whole process, they can click
