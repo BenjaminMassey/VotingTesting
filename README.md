@@ -19,6 +19,12 @@ it and generally having a preview.
 
 ![Screenshot](https://i.imgur.com/7KqbF1Y.png)
 
+## Installation
+
+The only required librrary to download is cryptography, which can be installed
+via the following command in a command prompt:
+	pip install cryptography
+
 ## Sources
 
 The encrytpion methods (aside from Caesar Cipher) were not written by us, but
