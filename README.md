@@ -23,7 +23,8 @@ it and generally having a preview.
 
 The only required librrary to download is cryptography, which can be installed
 via the following command in a command prompt:
-	pip install cryptography
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pip install cryptography
 
 ## Sources
 
