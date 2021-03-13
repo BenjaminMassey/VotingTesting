@@ -21,10 +21,26 @@ it and generally having a preview.
 
 ## Installation
 
-The only required librrary to download is cryptography, which can be installed
+The only required library to download is cryptography, which can be installed
 via the following command in a command prompt:
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pip install cryptography
+
+## Usage
+
+The program is intended to be fairly simple to use.
+It should be run the same as any other Python script,
+so running "python Voter.py" in your command
+prompt / terminal, or via an auxillary program like IDLE.
+Once started, the user enters the vote for their preferred
+candidate at the top center of the screen, which involves 
+clicking the corresponding radio button and pressing the submit
+button. This then allows one to try out the four encryption
+methods on the bottom half of the window. First one click an "Encrypt"
+button, which displays the encrytped version. Then, the user can
+click the related "Decrypt" button which converts it into the decrypted
+text. If the user ever wants to reset this whole process, they can click
+the "Clear" button in the bottom middle.
 
 ## Sources
 
